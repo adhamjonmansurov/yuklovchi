@@ -53,7 +53,7 @@ async def get_input(message: types.Message, state: FSMContext):
     kb = types.InlineKeyboardMarkup(row_width=1)
     kb.add(
         types.InlineKeyboardButton("🎥 Video yuklash", callback_data="video"),
-        types.InlineKeyboardButton("🎵 Musiqa (MP3)", callback_data="audio"),
+        # types.InlineKeyboardButton("🎵 Musiqa (MP3)", callback_data="audio"),
         types.InlineKeyboardButton("🎧 Shazam", callback_data="shazam"),
     )
 
@@ -83,24 +83,24 @@ async def process_choice(callback: types.CallbackQuery, state: FSMContext):
         )
         os.remove(os.path.join(DOWNLOAD_DIR, "video.mp4"))
 
-    # -------- AUDIO --------
-    elif callback.data == "audio":
-        ydl_opts = {
-            "outtmpl": os.path.join(DOWNLOAD_DIR, "audio.%(ext)s"),
-            "format": "bestaudio",
-            "postprocessors": [{
-                "key": "FFmpegExtractAudio",
-                "preferredcodec": "mp3",
-                "preferredquality": "192",
-            }]
-        }
-        with YoutubeDL(ydl_opts) as ydl:
-            ydl.download([source])
+    # # -------- AUDIO --------
+    # elif callback.data == "audio":
+    #     ydl_opts = {
+    #         "outtmpl": os.path.join(DOWNLOAD_DIR, "audio.%(ext)s"),
+    #         "format": "bestaudio",
+    #         "postprocessors": [{
+    #             "key": "FFmpegExtractAudio",
+    #             "preferredcodec": "mp3",
+    #             "preferredquality": "192",
+    #         }]
+    #     }
+    #     with YoutubeDL(ydl_opts) as ydl:
+    #         ydl.download([source])
 
-        await callback.message.answer_audio(
-            open(os.path.join(DOWNLOAD_DIR, "audio.mp3"), "rb")
-        )
-        os.remove(os.path.join(DOWNLOAD_DIR, "audio.mp3"))
+    #     await callback.message.answer_audio(
+    #         open(os.path.join(DOWNLOAD_DIR, "audio.mp3"), "rb")
+    #     )
+    #     os.remove(os.path.join(DOWNLOAD_DIR, "audio.mp3"))
 
     # -------- SHAZAM --------
     elif callback.data == "shazam":

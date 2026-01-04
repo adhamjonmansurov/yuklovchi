@@ -1,4 +1,4 @@
 aiogram
 yt_dlp
 shazamio
-py_dub
+pydub
